@@ -2,10 +2,10 @@
   "name": "apinode",
   "version": "1.0.0",
   "description": "Api Node teste",
-  "main": "Index.js",
+  "main": "src/services/server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon Index.js",
+    "start": "nodemon src/services/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Magany Lima",
