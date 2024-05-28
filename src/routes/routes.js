@@ -1,25 +1,32 @@
 import express from 'express';
-import connection from '../database/connection';
+import controllerUser from '../controllers/controllerUser.js';
+import controllerReceita from '../controllers/controller.receita.js';
 
-const router = express.Router();
+const routes = express.Router();
+const { selectUser, registerUser, updateUser, deleteUser } = controllerUser;
+const { selectReceita, registerReceita, updateReceita, deleteReceita } = controllerReceita;
+
+routes.get('/selectUser', selectUser);
+routes.post('/registerUser', registerUser);
+routes.put('/updateUser/:id', updateUser);
+routes.delete('/deleteUser/:id', deleteUser);
+
+routes.get('/selectReceita', selectReceita);
+routes.post('/registerReceita', registerReceita);
+routes.put('/updateReceita/:id', updateReceita);
+routes.delete('/deleteReceita/:id', deleteReceita);
+
 
 // Define your routes here
-router.get('/selectUser', (req, res) => {
-    connection.query('SELECT * FROM usuario', (err, users) => {
-        if (err) return res.send(err);
-        res.send(users);
-    });
-});
-
 /*
-router.get('/selectUser', (req, res) => {
+routes.get('/selectUser', (req, res) => {
     connection.query('SELECT * FROM usuario', (err, users) => {
         if (err) return res.send(err);
         res.send(users);
     });
 }); 
 
-router.post('/registerUser', (req, res) => {
+routes.post('/registerUser', (req, res) => {
         const { nome, email, senha } = req.body;
         connection.query('INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)', [nome, email, senha], (err) => {
                 if (err) return res.send(err);
@@ -27,7 +34,7 @@ router.post('/registerUser', (req, res) => {
         });
 });
 
-router.put('/updateUser/:id', (req, res) => {
+routes.put('/updateUser/:id', (req, res) => {
         const { nome, email, senha } = req.body;
         const { id } = req.params;
         connection.query('UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE idUsuario = ?', [nome, email, senha, id], (err) => {
@@ -36,7 +43,7 @@ router.put('/updateUser/:id', (req, res) => {
         });
 });
 
-router.delete('/deleteUser/:id', (req, res) => {
+routes.delete('/deleteUser/:id', (req, res) => {
         const { id } = req.params;
         connection.query('DELETE FROM usuario WHERE idUsuario = ?', [id], (err) => {
                 if (err) return res.send(err);
@@ -44,6 +51,5 @@ router.delete('/deleteUser/:id', (req, res) => {
         });
 });
 */
-
 // Export the router
-export default router;
+export default routes;
