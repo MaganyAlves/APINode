@@ -1,15 +1,33 @@
 import connection from "../database/connection.js";
 const controllerReceita = {
-  selectReceita(req, res) {
-    connection.query("SELECT * FROM receita", (err, receitas) => {
-      if (err) return res.send(err);
+selectReceita(req, res) {
+    /*
+    connection.query('SELECT * FROM receita', (err, receitas) => {
+        if (err) return res.send(err);
         res.send(receitas);
     }
     );
+    */
+    
+    connection.query(`
+            SELECT receita.valor, 
+                    receita.descricao, 
+                    categoriaReceita.descricao AS categoria, 
+                    receita.dataReceita 
+            FROM receita 
+            JOIN categoriaReceita 
+            ON receita.CategoriaReceita_idCategoriaReceita = categoriaReceita.idCategoriaReceita;`, 
+    (err, receitas) => {
+        if (err) return res.send(err);
+            res.send(receitas);
+    }
+    );
+    
     },
     registerReceita(req, res) {
-        const { nome, ingredientes, modo_preparo } = req.body;
-        connection.query('INSERT INTO receita (nome, ingredientes, modo_preparo) VALUES (?, ?, ?)', [nome, ingredientes, modo_preparo], (err) => {
+        const { valor, descricao, dataReceita, Usuario_idUsuario,CategoriaReceita_idCategoriaReceita, tipoLancamento_idtipoLancamento } = req.body;
+        connection.query('INSERT INTO receita (valor, descricao, dataReceita, Usuario_idUsuario, CategoriaReceita_idCategoriaReceita, tipoLancamento_idtipoLancamento ) VALUES (?, ?, ?, ?, ?, ?)', 
+        [valor, descricao, dataReceita, Usuario_idUsuario, CategoriaReceita_idCategoriaReceita, tipoLancamento_idtipoLancamento], (err) => {
             if (err) return res.send(err);
             res.send('Receita inserida com sucesso!');
         }
