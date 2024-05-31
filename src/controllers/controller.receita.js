@@ -10,23 +10,25 @@ selectReceita(req, res) {
     */
     
     connection.query(`
-            SELECT receita.valor, 
-                    receita.descricao, 
-                    categoriaReceita.descricao AS categoria, 
-                    receita.dataReceita 
-            FROM receita 
-            JOIN categoriaReceita 
-            ON receita.CategoriaReceita_idCategoriaReceita = categoriaReceita.idCategoriaReceita;`, 
+        SELECT receita.valor, 
+            receita.descricao, 
+            categoriaReceita.descricao AS categoria, 
+            receita.dataReceita 
+        FROM receita 
+        JOIN categoriaReceita 
+        ON receita.CategoriaReceita_idCategoriaReceita = categoriaReceita.idCategoriaReceita;`, 
     (err, receitas) => {
         if (err) return res.send(err);
             res.send(receitas);
     }
     );
-    
-    },
+},
     registerReceita(req, res) {
         const { valor, descricao, dataReceita, Usuario_idUsuario,CategoriaReceita_idCategoriaReceita, tipoLancamento_idtipoLancamento } = req.body;
-        connection.query('INSERT INTO receita (valor, descricao, dataReceita, Usuario_idUsuario, CategoriaReceita_idCategoriaReceita, tipoLancamento_idtipoLancamento ) VALUES (?, ?, ?, ?, ?, ?)', 
+        connection.query(`        
+            INSERT INTO receita 
+                (valor, descricao, dataReceita, Usuario_idUsuario, CategoriaReceita_idCategoriaReceita, tipoLancamento_idtipoLancamento )
+            VALUES (?, ?, ?, ?, ?, ?)`, 
         [valor, descricao, dataReceita, Usuario_idUsuario, CategoriaReceita_idCategoriaReceita, tipoLancamento_idtipoLancamento], (err) => {
             if (err) return res.send(err);
             res.send('Receita inserida com sucesso!');
@@ -34,9 +36,11 @@ selectReceita(req, res) {
         );
     },
     updateReceita(req, res) {
-        const { nome, ingredientes, modo_preparo } = req.body;
+        const { valor, descricao, dataReceita, CategoriaReceita_idCategoriaReceita} = req.body;
         const { id } = req.params;
-        connection.query('UPDATE receita SET nome = ?, ingredientes = ?, modo_preparo = ? WHERE idReceita = ?', [nome, ingredientes, modo_preparo, id], (err) => {
+        connection.query(`
+        UPDATE receita SET valor = ?, descricao = ?, dataReceita = ?, CategoriaReceita_idCategoriaReceita = ?  
+        WHERE idReceita = ?`, [valor, descricao, dataReceita, CategoriaReceita_idCategoriaReceita ,id], (err) => {
             if (err) return res.send(err);
             res.send('Receita atualizada com sucesso!');
         }

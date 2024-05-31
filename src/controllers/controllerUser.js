@@ -9,7 +9,9 @@ const controllerUser = {
     },
     registerUser(req, res) {
         const { nome, email, senha } = req.body;
-        connection.query('INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)', [nome, email, senha], (err) => {
+        connection.query(`
+            INSERT INTO usuario (nome, email, senha) 
+            VALUES (?, ?, ?)`, [nome, email, senha], (err) => {
             if (err) return res.send(err);
             res.send('Usuário inserido com sucesso!');
         }
@@ -18,7 +20,9 @@ const controllerUser = {
     updateUser(req, res) {
         const { nome, email, senha } = req.body;
         const { id } = req.params;
-        connection.query('UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE idUsuario = ?', [nome, email, senha, id], (err) => {
+        connection.query(`
+        UPDATE usuario SET nome = ?, email = ?, senha = ? 
+        WHERE idUsuario = ?`, [nome, email, senha, id], (err) => {
             if (err) return res.send(err);
             res.send('Usuário atualizado com sucesso!');
         }
