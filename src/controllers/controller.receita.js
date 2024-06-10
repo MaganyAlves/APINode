@@ -1,4 +1,5 @@
 import connection from "../database/connection.js";
+
 const controllerReceita = {
 selectReceita(req, res) {
     /*
@@ -10,7 +11,8 @@ selectReceita(req, res) {
     */
     
     connection.query(`
-        SELECT receita.valor, 
+        SELECT receita.idReceita,
+            receita.valor, 
             receita.descricao, 
             categoriaReceita.descricao AS categoria, 
             receita.dataReceita 

@@ -2,11 +2,13 @@ import express from 'express';
 import controllerUser from '../controllers/controllerUser.js';
 import controllerReceita from '../controllers/controller.receita.js';
 import controllerDespesa from '../controllers/controller.despesa.js';
+import controllerLancados from '../controllers/controller.lancados.js';
 
 const routes = express.Router();
 const { selectUser, registerUser, updateUser, deleteUser } = controllerUser;
 const { selectReceita, registerReceita, updateReceita, deleteReceita } = controllerReceita;
 const { selectDespesa, registerDespesa, updateDespesa, deleteDespesa } = controllerDespesa;
+const { selectLancados } = controllerLancados;
 
 routes.get('/selectUser', selectUser);
 routes.post('/registerUser', registerUser);
@@ -22,6 +24,8 @@ routes.get('/selectDespesa', selectDespesa);
 routes.post('/registerDespesa', registerDespesa);
 routes.put('/updateDespesa/:id', updateDespesa);
 routes.delete('/deleteDespesa/:id', deleteDespesa);
+
+routes.get('/selectLancados', selectLancados);
 
 // Export the router
 export default routes;
